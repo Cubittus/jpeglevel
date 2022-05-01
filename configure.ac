@@ -1,0 +1,6 @@
+AC_INIT([jpeglevel], [0.1])
+AM_INIT_AUTOMAKE
+AM_SILENT_RULES([yes])
+AC_CONFIG_FILES([Makefile])
+AC_PROG_CXX
+AC_OUTPUT
