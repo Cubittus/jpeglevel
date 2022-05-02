@@ -13,3 +13,6 @@
 
 *.o
 jpeglevel
+
+*.png
+*.jpg
