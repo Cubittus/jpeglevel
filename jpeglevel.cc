@@ -5,10 +5,61 @@
 
 #include <turbojpeg.h>
 
-
 using std::cout, std::cerr, std::endl;
 using std::string;
 using std::list;
+
+// --- JPEGFile -----------------------------------------------------------------------------------------------------------
+
+class JPEGFile
+{
+private:
+	JPEGFile(const JPEGFile &) = delete;
+	JPEGFile(const JPEGFile &&) = delete;
+	JPEGFile & operator=(const JPEGFile &) = delete;
+	JPEGFile & operator=(const JPEGFile &&) = delete;
+
+	unsigned char *file_data { nullptr };
+	string file_name {};
+	size_t file_size { 0 };
+	bool file_loaded { false };
+
+	bool load();
+
+public:
+	JPEGFile(const string &filename);
+	~JPEGFile();
+
+	size_t size();
+};
+
+JPEGFile::JPEGFile(const string &filename)
+{
+	file_name = filename;
+}
+
+JPEGFile::~JPEGFile()
+{
+	if (file_data)
+		delete [] file_data;
+}
+
+bool JPEGFile::load()
+{
+	if (file_loaded)
+		return true;
+	// XXX
+	file_loaded = true;
+	return true;
+}
+
+size_t JPEGFile::size()
+{
+	load();
+	return file_size;
+}
+
+// --- syntax -------------------------------------------------------------------------------------------------------------
 
 static int syntax(int rc, string reason = {} )
 {
@@ -21,16 +72,22 @@ static int syntax(int rc, string reason = {} )
 	return rc;
 }
 
+// --- info ---------------------------------------------------------------------------------------------------------------
+
 static int info(const list<string> &options, const list<string> &filenames)
 {
 	for (string option : options) {
 		return syntax(1, "info option not recognised: " + option);
 	}
 	for (string filename : filenames) {
+		JPEGFile file(filename);
 		cout << "File : " << filename << endl;
+		cout << "   Size : " << file.size() << endl;
 	}
 	return 0;
 }
+
+// --- main ---------------------------------------------------------------------------------------------------------------
 
 int main(int ac, char *av[])
 {
