@@ -48,7 +48,9 @@ bool JPEGFile::load()
 {
 	if (file_loaded)
 		return true;
+
 	// XXX
+
 	file_loaded = true;
 	return true;
 }
