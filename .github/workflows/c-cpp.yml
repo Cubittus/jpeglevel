@@ -17,7 +17,7 @@ jobs:
       run: |
         #dpkg -l
         #apt-cache search autoconf
-        #sudo apt-get install autoconf-archive
+        sudo apt-get install autoconf-archive
         sudo apt-get install libturbojpeg0-dev
         dpkg -L libturbojpeg0-dev
     - name: configure
