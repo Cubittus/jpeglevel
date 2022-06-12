@@ -16,6 +16,6 @@ AM_MAKEFLAGS=--no-print-directory -j 4
 
 bin_PROGRAMS = jpeglevel
 
-jpeglevel_SOURCES = jpeglevel.cc
+jpeglevel_SOURCES = jpeglevel.cc JPEGFile.cc
 jpeglevel_LDADD=-lturbojpeg
 
