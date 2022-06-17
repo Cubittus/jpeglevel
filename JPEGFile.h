@@ -35,7 +35,7 @@ public:
 	bool load();
 	bool copydata(const unsigned char * newdata, size_t newsize);
 
-	bool save(bool overwrite = false);
+	bool save(bool replace = false, bool backup = true);
 	bool discard();
 
 	bool getdata(unsigned char ** dataptr) { *dataptr = ( size() ) ? my_data : nullptr; my_safe = false; return *dataptr != nullptr; }

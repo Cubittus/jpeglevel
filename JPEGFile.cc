@@ -75,25 +75,54 @@ bool JPEGFile::load()
 	return true;
 }
 
-bool JPEGFile::save( bool overwrite /*= false*/ )
+static fs::path findfreepath( fs::path p, string suf )
+{
+	fs::path fp { p };
+	fp += suf;
+	unsigned int n { 0 };
+	while ( fs::exists( fp ) ) {
+		n++;
+		fp = p;
+		fp += suf;
+		fp += std::to_string( n );
+	}
+	return fp;
+}
+
+bool JPEGFile::save( bool replace /*= false*/, bool backup /*= true*/ )
 {
 	if ( my_safe )
 		return true;
 
-	if ( my_name.empty() )
+	if ( my_name.empty() ) {
+		cerr << "Not saving JPEGFile - no filename" << endl;
 		return false;
-
-	if ( my_size == 0 || ! my_data)
-		return false;
-
-	if ( fs::exists( my_name ) ) {
-		if ( ! overwrite )
-			return false;
-		// XXX Back up existing file ?
-		// XXX Remove existing file ?
 	}
 
-	// XXX Save
+	if ( my_size == 0 || ! my_data) {
+		cerr << "Not saving JPEGFile " << my_name << " - no data" << endl;
+		return false;
+	}
+
+	if ( fs::exists( my_name ) ) {
+		if ( ! replace ) {
+			cerr << "Not saving JPEGFile " << my_name << " - existing file" << endl;
+			return false;
+		}
+		if ( backup ) {
+			fs::path backuppath { findfreepath( my_name, "~" ) };
+			cerr << "Moving replaced file " << my_name << " to " << backuppath << endl;
+			fs::rename( my_name, backuppath );
+		} else {
+			cerr << "Removing existing file " << my_name << endl;
+			fs::remove( my_name );
+		}
+	}
+
+	cerr << "Saving " << my_name << endl;
+	std::ofstream ofs( my_name, std::ios::out | std::ios::binary );
+	ofs.write( reinterpret_cast< char * >( my_data ), my_size );
+	ofs.flush();
 
 	my_safe = true;
 	return true;

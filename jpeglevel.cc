@@ -38,6 +38,8 @@ static int info(const list<string> &options, const list<string> &filenames)
 		cout << "File : " << file.name() << endl;
 		cout << "   Saved : " << file.safe() << endl;
 		cout << "    Size : " << file.size() << endl;
+		file.name("lena-new.jpg");
+		file.save(true);
 	}
 	return 0;
 }
