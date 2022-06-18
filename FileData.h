@@ -26,22 +26,22 @@ private:
 public:
 	FileData() { }
 	FileData(const std::string & filename) : my_name(filename) { }
-	FileData(const unsigned char * newdata, size_t newsize) { copydata(newdata, newsize); }
+	FileData(const unsigned char * newdata, size_t newsize) { usedata(newdata, newsize); }
 	~FileData();
 
 	std::string name() { return my_name; }
 	void name(const std::string & filename) { my_name = filename; my_safe = false; }
 
 	bool load();
-	bool copydata(const unsigned char * newdata, size_t newsize);
+	bool usedata(const unsigned char * newdata, size_t newsize);
 
 	bool save(bool replace = false, bool backup = true);
-	bool discard();
-
-	bool getdata(unsigned char ** dataptr) { *dataptr = ( size() ) ? my_data : nullptr; my_safe = false; return *dataptr != nullptr; }
-	bool getdata(const unsigned char ** dataptr) { *dataptr = ( size() ) ? my_data : nullptr; return *dataptr != nullptr; }
+	void discard() { my_safe = true; freedata(); }
 
 	size_t size() { if ( my_size ) return my_size; else if ( load() ) return my_size; else return 0; }
+	unsigned char *readdata() { if (my_data) return my_data; else if ( load() ) return my_data; else return nullptr; }
+	unsigned char *data() { my_safe = false; if (my_data) return my_data; else if ( load() ) return my_data; else return nullptr; }
+
 	bool safe() { return my_safe; }
 
 };

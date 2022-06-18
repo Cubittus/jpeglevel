@@ -29,17 +29,19 @@ static int syntax(int rc, string reason = {} )
 
 static int info(const list<string> &options, const list<string> &filenames)
 {
-	for (string option : options) {
-		return syntax(1, "info option not recognised: " + option);
+	size_t size { 0 };
+	for ( string option : options ) {
+		return syntax(1, "Error: info option not recognised: " + option);
 	}
-	for (string filename : filenames) {
+	for ( string filename : filenames ) {
 		FileData file(filename);
-		file.load();
+		if ( ! file.load() ) {
+			cerr << "Warning: Could not load file " << filename << endl;
+			continue;
+		}
 		cout << "File : " << file.name() << endl;
-		cout << "   Saved : " << file.safe() << endl;
-		cout << "    Size : " << file.size() << endl;
-		file.name("lena-new.jpg");
-		file.save(true);
+		size = file.size();
+		cout << "    Size : " << size << " bytes" << endl;
 	}
 	return 0;
 }

@@ -22,7 +22,7 @@ void FileData::freedata()
 {
 	if ( my_data ) {
 		if ( ! my_safe ) {
-			cerr << "Warning: Unsaved FileData data deleted";
+			cerr << "Warning: Unsaved FileData deleted";
 			if ( my_name.empty() )
 				cerr << " - no file name given";
 			else
@@ -35,7 +35,7 @@ void FileData::freedata()
 	my_size = 0;
 }
 
-bool FileData::copydata(const unsigned char * newdata, size_t newsize)
+bool FileData::usedata(const unsigned char * newdata, size_t newsize)
 {
 	if ( ! newdata || ! newsize )
 		return false;
