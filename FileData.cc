@@ -1,4 +1,4 @@
-// JPEGFile.cc
+// FileData.cc
 // © 2022 Cubittus
 
 #include <iostream>
@@ -6,23 +6,23 @@
 #include <string>
 #include <cstring>
 
-#include "JPEGFile.h"
+#include "FileData.h"
 
 namespace fs = std::filesystem;
 
 using std::string;
 using std::cerr, std::endl;
 
-JPEGFile::~JPEGFile()
+FileData::~FileData()
 {
 	freedata();
 }
 
-void JPEGFile::freedata()
+void FileData::freedata()
 {
 	if ( my_data ) {
 		if ( ! my_safe ) {
-			cerr << "Warning: Unsaved JPEGFile data deleted";
+			cerr << "Warning: Unsaved FileData data deleted";
 			if ( my_name.empty() )
 				cerr << " - no file name given";
 			else
@@ -35,7 +35,7 @@ void JPEGFile::freedata()
 	my_size = 0;
 }
 
-bool JPEGFile::copydata(const unsigned char * newdata, size_t newsize)
+bool FileData::copydata(const unsigned char * newdata, size_t newsize)
 {
 	if ( ! newdata || ! newsize )
 		return false;
@@ -48,7 +48,7 @@ bool JPEGFile::copydata(const unsigned char * newdata, size_t newsize)
 	return true;
 }
 
-bool JPEGFile::load()
+bool FileData::load()
 {
 	if ( my_safe )
 		return true;
@@ -89,24 +89,24 @@ static fs::path findfreepath( fs::path p, string suf )
 	return fp;
 }
 
-bool JPEGFile::save( bool replace /*= false*/, bool backup /*= true*/ )
+bool FileData::save( bool replace /*= false*/, bool backup /*= true*/ )
 {
 	if ( my_safe )
 		return true;
 
 	if ( my_name.empty() ) {
-		cerr << "Not saving JPEGFile - no filename" << endl;
+		cerr << "Not saving FileData - no filename" << endl;
 		return false;
 	}
 
 	if ( my_size == 0 || ! my_data) {
-		cerr << "Not saving JPEGFile " << my_name << " - no data" << endl;
+		cerr << "Not saving FileData " << my_name << " - no data" << endl;
 		return false;
 	}
 
 	if ( fs::exists( my_name ) ) {
 		if ( ! replace ) {
-			cerr << "Not saving JPEGFile " << my_name << " - existing file" << endl;
+			cerr << "Not saving FileData " << my_name << " - existing file" << endl;
 			return false;
 		}
 		if ( backup ) {

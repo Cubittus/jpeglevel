@@ -1,4 +1,4 @@
-// JPEGFile.h
+// FileData.h
 // © 2022 Cubittus
 
 #pragma once
@@ -6,15 +6,15 @@
 #include <string>
 #include <filesystem>
 
-// --- JPEGFile -----------------------------------------------------------------------------------------------------------
+// --- FileData -----------------------------------------------------------------------------------------------------------
 
-class JPEGFile // A JPEG file in memory and/or on disk
+class FileData // A file in memory and/or on disk
 {
 private:
-	JPEGFile(const JPEGFile &) = delete;
-	JPEGFile(const JPEGFile &&) = delete;
-	JPEGFile & operator=(const JPEGFile &) = delete;
-	JPEGFile & operator=(const JPEGFile &&) = delete;
+	FileData(const FileData &) = delete;
+	FileData(const FileData &&) = delete;
+	FileData & operator=(const FileData &) = delete;
+	FileData & operator=(const FileData &&) = delete;
 
 	unsigned char * my_data { nullptr };
 	std::filesystem::path my_name { };
@@ -24,10 +24,10 @@ private:
 	void freedata();
 
 public:
-	JPEGFile() { }
-	JPEGFile(const std::string & filename) : my_name(filename) { }
-	JPEGFile(const unsigned char * newdata, size_t newsize) { copydata(newdata, newsize); }
-	~JPEGFile();
+	FileData() { }
+	FileData(const std::string & filename) : my_name(filename) { }
+	FileData(const unsigned char * newdata, size_t newsize) { copydata(newdata, newsize); }
+	~FileData();
 
 	std::string name() { return my_name; }
 	void name(const std::string & filename) { my_name = filename; my_safe = false; }

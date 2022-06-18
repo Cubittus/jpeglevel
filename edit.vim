@@ -14,9 +14,9 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +0 jpeglevel.cc
-badd +0 JPEGFile.h
-badd +0 JPEGFile.cc
+badd +1 jpeglevel.cc
+badd +0 FileData.h
+badd +0 FileData.cc
 argglobal
 %argdel
 $argadd ~/dev/jpeglevel/jpeglevel.cc
@@ -27,6 +27,7 @@ tabnew +setlocal\ bufhidden=wipe
 tabrewind
 edit jpeglevel.cc
 argglobal
+balt Makefile.am
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -44,7 +45,7 @@ normal! zt
 keepjumps 1
 normal! 015|
 tabnext
-edit JPEGFile.h
+edit FileData.h
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -64,7 +65,7 @@ set winwidth=1
 exe '1resize ' . ((&lines * 38 + 40) / 80)
 exe '2resize ' . ((&lines * 39 + 40) / 80)
 argglobal
-balt JPEGFile.cc
+balt JPEGFile.h
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -80,11 +81,11 @@ if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
 keepjumps 1
-normal! 05|
+normal! 0
 wincmd w
 argglobal
-if bufexists(fnamemodify("JPEGFile.cc", ":p")) | buffer JPEGFile.cc | else | edit JPEGFile.cc | endif
-balt JPEGFile.h
+if bufexists(fnamemodify("FileData.cc", ":p")) | buffer FileData.cc | else | edit FileData.cc | endif
+balt JPEGFile.cc
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -102,9 +103,10 @@ normal! zt
 keepjumps 1
 normal! 0
 wincmd w
+2wincmd w
 exe '1resize ' . ((&lines * 38 + 40) / 80)
 exe '2resize ' . ((&lines * 39 + 40) / 80)
-tabnext 1
+tabnext 2
 set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
