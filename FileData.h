@@ -27,22 +27,22 @@ public:
 	FileData() { }
 	FileData(const std::string & filename) : my_name(filename) { }
 	FileData(const unsigned char * newdata, size_t newsize) { usedata(newdata, newsize); }
-	~FileData();
+	virtual ~FileData();
 
-	std::string name() { return my_name; }
-	void name(const std::string & filename) { my_name = filename; my_safe = false; }
+	virtual std::string name() const final { return my_name; }
+	virtual void name(const std::string & filename) final { my_name = filename; my_safe = false; }
 
-	bool load();
-	bool usedata(const unsigned char * newdata, size_t newsize);
+	virtual bool load() final;
+	virtual bool usedata(const unsigned char * newdata, size_t newsize) final;
 
-	bool save(bool replace = false, bool backup = true);
-	void discard() { my_safe = true; freedata(); }
+	virtual bool save(bool replace = false, bool backup = true) final;
+	virtual void discard() final { my_safe = true; freedata(); }
 
-	size_t size() { if ( my_size ) return my_size; else if ( load() ) return my_size; else return 0; }
-	unsigned char *readdata() { if (my_data) return my_data; else if ( load() ) return my_data; else return nullptr; }
-	unsigned char *data() { my_safe = false; if (my_data) return my_data; else if ( load() ) return my_data; else return nullptr; }
+	virtual size_t size() final { if ( my_size ) return my_size; else if ( load() ) return my_size; else return 0; }
+	virtual unsigned char *readdata() final { if (my_data) return my_data; else if ( load() ) return my_data; else return nullptr; }
+	virtual unsigned char *data() final { my_safe = false; if (my_data) return my_data; else if ( load() ) return my_data; else return nullptr; }
 
-	bool safe() { return my_safe; }
+	virtual bool safe() const final { return my_safe; }
 
 };
 

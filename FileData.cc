@@ -55,17 +55,24 @@ bool FileData::load()
 
 	freedata();
 
-	if ( my_name.empty() )
+	if ( my_name.empty() ) {
+		cerr << "Not loading FileData - no filename" <<endl;
 		return false;
+	}
 
-	if ( ! fs::is_regular_file( my_name ) )
+	if ( ! fs::is_regular_file( my_name ) ) {
+		cerr << "Not loading FileData " << my_name << " - file not found" <<endl;
 		return false;
+	}
 
 	my_size = fs::file_size( my_name );
 
-	if ( my_size == 0 )
+	if ( my_size == 0 ) {
+		cerr << "Not loading FileData " << my_name << " - file is empty" <<endl;
 		return false;
+	}
 
+	cerr << "Loading FileData " << my_name << endl;
 	std::ifstream ifs( my_name, std::ios::in | std::ios::binary );
 	my_data = new unsigned char [ my_size + 1 ];
 	ifs.read( reinterpret_cast< char * >( my_data ), my_size );
@@ -119,7 +126,7 @@ bool FileData::save( bool replace /*= false*/, bool backup /*= true*/ )
 		}
 	}
 
-	cerr << "Saving " << my_name << endl;
+	cerr << "Saving FileData " << my_name << endl;
 	std::ofstream ofs( my_name, std::ios::out | std::ios::binary );
 	ofs.write( reinterpret_cast< char * >( my_data ), my_size );
 	ofs.flush();

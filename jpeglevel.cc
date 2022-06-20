@@ -6,7 +6,7 @@
 
 #include <turbojpeg.h>
 
-#include "FileData.h"
+#include "JPEG.h"
 
 using std::string;
 using std::cout, std::cerr, std::endl;
@@ -34,13 +34,13 @@ static int info(const list<string> &options, const list<string> &filenames)
 		return syntax(1, "Error: info option not recognised: " + option);
 	}
 	for ( string filename : filenames ) {
-		FileData file(filename);
-		if ( ! file.load() ) {
-			cerr << "Warning: Could not load file " << filename << endl;
+		JPEG j(filename);
+		if ( ! j.valid() ) {
+			cerr << "Warning: Could not load as jpeg " << filename << endl;
 			continue;
 		}
-		cout << "File : " << file.name() << endl;
-		size = file.size();
+		cout << "Name : " << j.name() << endl;
+		size = j.size();
 		cout << "    Size : " << size << " bytes" << endl;
 	}
 	return 0;
