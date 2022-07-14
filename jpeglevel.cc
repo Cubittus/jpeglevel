@@ -42,6 +42,7 @@ static int info(const list<string> &options, const list<string> &filenames)
 		cout << "Name : " << j.name() << endl;
 		size = j.size();
 		cout << "    Size : " << size << " bytes" << endl;
+		cout << endl;
 	}
 	return 0;
 }

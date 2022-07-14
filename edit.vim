@@ -15,22 +15,24 @@ else
   set shortmess=aoO
 endif
 badd +1 jpeglevel.cc
-badd +45 FileData.h
+badd +1 FileData.h
+badd +1 JPEG.h
+badd +1 JPEG.cc
 badd +1 FileData.cc
-badd +0 JPEG.h
-badd +0 JPEG.cc
+badd +24 Debug.h
+badd +0 Debug.cc
 argglobal
 %argdel
-$argadd ~/dev/jpeglevel/jpeglevel.cc
-set lines=80 columns=160
-winpos 948 93
+set lines=78 columns=160
+winpos 1322 49
 set stal=2
+tabnew +setlocal\ bufhidden=wipe
 tabnew +setlocal\ bufhidden=wipe
 tabnew +setlocal\ bufhidden=wipe
 tabrewind
 edit jpeglevel.cc
 argglobal
-balt Makefile.am
+balt FileData.h
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -41,12 +43,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 9 - ((8 * winheight(0) + 39) / 78)
+let s:l = 35 - ((15 * winheight(0) + 38) / 76)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 9
-normal! 014|
+keepjumps 35
+normal! 05|
 tabnext
 edit JPEG.h
 let s:save_splitbelow = &splitbelow
@@ -65,9 +67,10 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 38 + 40) / 80)
-exe '2resize ' . ((&lines * 39 + 40) / 80)
+exe '1resize ' . ((&lines * 37 + 39) / 78)
+exe '2resize ' . ((&lines * 38 + 39) / 78)
 argglobal
+balt JPEG.cc
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -78,16 +81,16 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 21 - ((20 * winheight(0) + 19) / 38)
+let s:l = 1 - ((0 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 21
-normal! 017|
+keepjumps 1
+normal! 0
 wincmd w
 argglobal
 if bufexists(fnamemodify("JPEG.cc", ":p")) | buffer JPEG.cc | else | edit JPEG.cc | endif
-balt Makefile
+balt JPEG.h
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -98,15 +101,15 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 2 - ((1 * winheight(0) + 19) / 39)
+let s:l = 4 - ((3 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 2
+keepjumps 4
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 38 + 40) / 80)
-exe '2resize ' . ((&lines * 39 + 40) / 80)
+exe '1resize ' . ((&lines * 37 + 39) / 78)
+exe '2resize ' . ((&lines * 38 + 39) / 78)
 tabnext
 edit FileData.h
 let s:save_splitbelow = &splitbelow
@@ -125,10 +128,10 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 46 + 40) / 80)
-exe '2resize ' . ((&lines * 31 + 40) / 80)
+exe '1resize ' . ((&lines * 37 + 39) / 78)
+exe '2resize ' . ((&lines * 38 + 39) / 78)
 argglobal
-balt JPEGFile.h
+balt FileData.cc
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -139,16 +142,16 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 45 - ((38 * winheight(0) + 23) / 46)
+let s:l = 14 - ((13 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 45
-normal! 012|
+keepjumps 14
+normal! 0
 wincmd w
 argglobal
 if bufexists(fnamemodify("FileData.cc", ":p")) | buffer FileData.cc | else | edit FileData.cc | endif
-balt JPEGFile.cc
+balt FileData.h
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -159,16 +162,76 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 75 - ((7 * winheight(0) + 15) / 31)
+let s:l = 76 - ((27 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 75
-normal! 020|
+keepjumps 76
+normal! 011|
 wincmd w
-exe '1resize ' . ((&lines * 46 + 40) / 80)
-exe '2resize ' . ((&lines * 31 + 40) / 80)
-tabnext 3
+exe '1resize ' . ((&lines * 37 + 39) / 78)
+exe '2resize ' . ((&lines * 38 + 39) / 78)
+tabnext
+edit Debug.h
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe '1resize ' . ((&lines * 53 + 39) / 78)
+exe '2resize ' . ((&lines * 22 + 39) / 78)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 1 - ((0 * winheight(0) + 26) / 53)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 1
+normal! $
+wincmd w
+argglobal
+if bufexists(fnamemodify("Debug.cc", ":p")) | buffer Debug.cc | else | edit Debug.cc | endif
+balt Makefile.am
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 1 - ((0 * winheight(0) + 11) / 22)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 1
+normal! 0
+wincmd w
+exe '1resize ' . ((&lines * 53 + 39) / 78)
+exe '2resize ' . ((&lines * 22 + 39) / 78)
+tabnext 1
 set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf

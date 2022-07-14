@@ -6,6 +6,7 @@
 #include <string>
 #include <cstring>
 
+#include "Debug.h"
 #include "FileData.h"
 
 namespace fs = std::filesystem;
@@ -71,8 +72,7 @@ bool FileData::load()
 		cerr << "Not loading FileData " << my_name << " - file is empty" <<endl;
 		return false;
 	}
-
-	cerr << "Loading FileData " << my_name << endl;
+	Debug(1) << "Loading FileData " << my_name;
 	std::ifstream ifs( my_name, std::ios::in | std::ios::binary );
 	my_data = new unsigned char [ my_size + 1 ];
 	ifs.read( reinterpret_cast< char * >( my_data ), my_size );
