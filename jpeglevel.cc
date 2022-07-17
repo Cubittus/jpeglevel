@@ -4,8 +4,6 @@
 #include <iostream>
 #include <list>
 
-#include <turbojpeg.h>
-
 #include "JPEG.h"
 
 using std::string;
@@ -29,19 +27,27 @@ static int syntax(int rc, string reason = {} )
 
 static int info(const list<string> &options, const list<string> &filenames)
 {
-	size_t size { 0 };
 	for ( string option : options ) {
 		return syntax(1, "Error: info option not recognised: " + option);
 	}
+	int w { 0 }, h { 0 }, ss { 0 }, cs { 0 };
 	for ( string filename : filenames ) {
 		JPEG j(filename);
 		if ( ! j.valid() ) {
 			cerr << "Warning: Could not load as jpeg " << filename << endl;
 			continue;
 		}
+		w = j.width();
+		h = j.height();
+		ss = j.subsamp();
+		cs = j.colorspace();
 		cout << "Name : " << j.name() << endl;
-		size = j.size();
-		cout << "    Size : " << size << " bytes" << endl;
+		cout << "    Size        : " << j.size() << " bytes" << endl;
+		cout << "    Width       : " << w << endl;
+		cout << "    Height      : " << h << endl;
+		cout << "    Pixels      : " << (w*h) << endl;
+		cout << "    Subsampling : " << j.subsampname(ss) << endl;
+		cout << "    Color Space : " << j.colorspacename(cs) << endl;
 		cout << endl;
 	}
 	return 0;

@@ -22,12 +22,12 @@ FileData::~FileData()
 void FileData::freedata()
 {
 	if ( my_data ) {
-		if ( ! my_safe ) {
+		if ( ! my_sync ) {
 			cerr << "Warning: Unsaved FileData deleted";
 			if ( my_name.empty() )
 				cerr << " - no file name given";
 			else
-				cerr << " - original loaded from file " << my_name;
+				cerr << " - has file name " << my_name;
 			cerr << endl;
 		}
 		delete [] my_data;
@@ -45,13 +45,13 @@ bool FileData::usedata(const unsigned char * newdata, size_t newsize)
 	my_data = new unsigned char [ my_size + 1 ];
 	std::memcpy( my_data, newdata, my_size );
 	my_data[ my_size ] = 0;
-	my_safe = false;
+	my_sync = false;
 	return true;
 }
 
 bool FileData::load()
 {
-	if ( my_safe )
+	if ( my_sync )
 		return true;
 
 	freedata();
@@ -77,7 +77,7 @@ bool FileData::load()
 	my_data = new unsigned char [ my_size + 1 ];
 	ifs.read( reinterpret_cast< char * >( my_data ), my_size );
 
-	my_safe = true;
+	my_sync = true;
 
 	return true;
 }
@@ -98,7 +98,7 @@ static fs::path findfreepath( fs::path p, string suf )
 
 bool FileData::save( bool replace /*= false*/, bool backup /*= true*/ )
 {
-	if ( my_safe )
+	if ( my_sync )
 		return true;
 
 	if ( my_name.empty() ) {
@@ -131,7 +131,7 @@ bool FileData::save( bool replace /*= false*/, bool backup /*= true*/ )
 	ofs.write( reinterpret_cast< char * >( my_data ), my_size );
 	ofs.flush();
 
-	my_safe = true;
+	my_sync = true;
 	return true;
 }
 

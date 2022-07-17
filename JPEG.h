@@ -3,7 +3,7 @@
 
 #include "FileData.h"
 
-class JPEG : private FileData
+class JPEG
 {
 private:
 	JPEG(const JPEG &) = delete;
@@ -11,13 +11,32 @@ private:
 	JPEG & operator=(const JPEG &) = delete;
 	JPEG & operator=(const JPEG &&) = delete;
 
+	FileData file {};
+
+	bool readheader();
+
+	bool my_valid { false };
+	int my_width { 0 }, my_height { 0 }, my_subsamp { 0 }, my_colorspace { 0 };
+
 public:
-	JPEG() : FileData() { }
-	JPEG(const std::string & filename) : FileData(filename) { }
-	JPEG(const unsigned char * newdata, size_t newsize) : FileData(newdata, newsize) { }
+	JPEG() { }
+	JPEG(const std::string & filename) : file(filename) { }
+	JPEG(const unsigned char * newdata, size_t newsize) : file(newdata, newsize) { }
+	virtual ~JPEG() { }
 
-	using FileData::name, FileData::size;
+	virtual std::string name() const final { return file.name(); }
+	virtual void name(const std::string & filename) final { return file.name(filename); }
 
-	bool valid() { return size() > 0; /* XXX */ }
+	virtual size_t size() final { return file.size(); }
+
+	bool valid();
+
+	virtual int width() final      { if (valid()) return my_width;      else return -1; }
+	virtual int height() final     { if (valid()) return my_height;     else return -1; }
+	virtual int subsamp() final    { if (valid()) return my_subsamp;    else return -1; }
+	virtual int colorspace() final { if (valid()) return my_colorspace; else return -1; }
+
+	static const std::string & subsampname(int subsamp);
+	static const std::string & colorspacename(int colorspace);
 };
 
