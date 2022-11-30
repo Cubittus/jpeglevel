@@ -9,8 +9,8 @@ GCC_WARNINGS_EXTRA4=-Wdisabled-optimization -Wduplicated-branches -Walloc-zero -
 GCC_WARNINGS_EXTRA=${GCC_WARNINGS_EXTRA1} ${GCC_WARNINGS_EXTRA2} ${GCC_WARNINGS_EXTRA3} ${GCC_WARNINGS_EXTRA4}
 GCC_WARNINGS=${GCC_WARNINGS_MAIN} ${GCC_WARNINGS_CXX} ${GCC_WARNINGS_SUGGEST} ${GCC_WARNINGS_EXTRA}
 
-AM_CFLAGS=${GCC_FLAGS} ${GCC_WARNINGS} -std=gnu2a -Wl,--fatal-warnings
-AM_CXXFLAGS=${GCC_FLAGS} ${GCC_WARNINGS} -std=gnu++2a -Wl,--fatal-warnings
+AM_CFLAGS=${GCC_FLAGS} ${GCC_WARNINGS} -std=gnu20 -Wl,--fatal-warnings
+AM_CXXFLAGS=${GCC_FLAGS} ${GCC_WARNINGS} -std=gnu++20 -Wl,--fatal-warnings
 
 AM_MAKEFLAGS=--no-print-directory -j 4
 
