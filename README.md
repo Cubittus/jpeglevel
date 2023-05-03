@@ -3,8 +3,12 @@
 
 # To do
 - write the todo list
-- get actions to use gcc-12
+- get actions to use gcc-12+
 - look at task lists
+- switch to cmake / something modern?
+- Consider plain C interface
+- Write public API first
+- Investigate variable quantization by edge/centre distance or mask
 
 # jpeglevel
 
